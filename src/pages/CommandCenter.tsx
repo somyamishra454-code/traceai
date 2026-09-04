@@ -11,6 +11,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { LiveTransactionStream } from '../components/shared/LiveTransactionStream';
+import { InvestigationWorkflowStepper } from '../components/shared/InvestigationWorkflowStepper';
 
 export const CommandCenter = () => {
   const { cases, stats, setActiveCaseId, openEmailModal, showToast } = useFinancialData();
@@ -29,6 +30,9 @@ export const CommandCenter = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      {/* 6-Stage Investigation Lifecycle Stepper */}
+      <InvestigationWorkflowStepper />
+
       {/* Page Header & Connectivity Telemetry */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#162033]">
         <div>

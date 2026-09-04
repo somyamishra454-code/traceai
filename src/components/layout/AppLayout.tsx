@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useFinancialData } from '../../data/financialContext';
 import SendReportEmailModal from '../modals/SendReportEmailModal';
 import ToastNotification from '../shared/ToastNotification';
+import ForensicAgentCopilot from '../shared/ForensicAgentCopilot';
 import {
   Activity,
   Layers,
@@ -329,9 +330,10 @@ export const AppLayout = () => {
         </main>
       </div>
 
-      {/* Global Modals & Notifications */}
+      {/* Global Modals, Notifications & AI Copilot */}
       <SendReportEmailModal />
       <ToastNotification />
+      <ForensicAgentCopilot />
     </div>
   );
 };

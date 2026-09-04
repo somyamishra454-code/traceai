@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { TimeTravelScrubber } from '../components/shared/TimeTravelScrubber';
 import { FlowCanvasRail } from '../components/shared/FlowCanvasRail';
+import { InvestigationWorkflowStepper } from '../components/shared/InvestigationWorkflowStepper';
+import { AgentReasoningVisualizer } from '../components/shared/AgentReasoningVisualizer';
 
 export const InvestigationWorkspace = () => {
   const {
@@ -49,6 +51,11 @@ export const InvestigationWorkspace = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-4">
+      {/* 6-Stage Investigation Lifecycle Stepper */}
+      <InvestigationWorkflowStepper />
+
+      {/* Autonomous AI Reasoning Engine & Evidence Citations */}
+      <AgentReasoningVisualizer />
       {/* Workspace Top Header */}
       <div className="fin-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#162033]">
         <div className="flex items-center gap-4">

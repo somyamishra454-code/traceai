@@ -10,6 +10,7 @@ import {
   FileText,
   Mail
 } from 'lucide-react';
+import { InvestigationWorkflowStepper } from '../components/shared/InvestigationWorkflowStepper';
 
 export const ResolutionCenter = () => {
   const { activeCase, approveResolution, retriggerWebhook, openEmailModal } = useFinancialData();
@@ -40,6 +41,9 @@ export const ResolutionCenter = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      {/* 6-Stage Investigation Lifecycle Stepper */}
+      <InvestigationWorkflowStepper />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#162033]">
         <div>
