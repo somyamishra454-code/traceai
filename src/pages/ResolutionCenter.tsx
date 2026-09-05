@@ -101,7 +101,7 @@ export const ResolutionCenter = () => {
 
             {/* Journal Table */}
             <div className="overflow-x-auto">
-              <table className="fin-table">
+              <table className="fin-table min-w-[480px]">
                 <thead>
                   <tr>
                     <th>Account Code & Name</th>
@@ -147,14 +147,14 @@ export const ResolutionCenter = () => {
               </table>
             </div>
 
-            <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] text-[11px] text-slate-400 flex items-center justify-between">
+            <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] text-[11px] text-slate-400 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
               <span>ERP Target: <strong>{activeCase.accountingSystem}</strong></span>
               <span className="font-mono text-slate-300">Ref: {activeCase.journalEntry.reference}</span>
             </div>
           </div>
 
           {/* Webhook Replay Simulator */}
-          <div className="fin-card p-5 space-y-4">
+          <div className="fin-card p-4 sm:p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-[#1A253A] pb-3">
               <div>
                 <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">
@@ -168,9 +168,9 @@ export const ResolutionCenter = () => {
             </div>
 
             <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] space-y-2 text-xs font-mono">
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <span className="text-slate-500">Destination:</span>
-                <span className="text-slate-300 truncate max-w-sm">{activeCase.webhookDetails.endpoint}</span>
+                <span className="text-slate-300 truncate max-w-[200px] sm:max-w-sm">{activeCase.webhookDetails.endpoint}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Payload Token:</span>

@@ -67,22 +67,22 @@ export const ExecutiveStoryboard = () => {
       </div>
 
       {/* Printable Report Document Container */}
-      <div className="fin-card p-8 space-y-8 print:p-0 print:border-0 bg-[#0E1524] text-slate-200">
+      <div className="fin-card p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 print:p-0 print:border-0 bg-[#0E1524] text-slate-200">
         {/* Document Header */}
-        <div className="flex justify-between items-start border-b border-[#1E2D48] pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#1E2D48] pb-4 sm:pb-6 gap-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded bg-[#2563EB] flex items-center justify-center font-bold text-white text-xs">
                 T
               </div>
-              <span className="font-bold text-lg text-white tracking-tight">TraceAI Forensics Engine</span>
+              <span className="font-bold text-base sm:text-lg text-white tracking-tight">TraceAI Forensics Engine</span>
             </div>
-            <div className="text-xs text-slate-400 font-mono">
+            <div className="text-[11px] sm:text-xs text-slate-400 font-mono">
               CONFIDENTIAL FINANCIAL AUDIT MEMORANDUM
             </div>
           </div>
 
-          <div className="text-right text-xs font-mono space-y-1 text-slate-400">
+          <div className="text-left sm:text-right text-[11px] sm:text-xs font-mono space-y-0.5 sm:space-y-1 text-slate-400">
             <div>Report ID: <span className="text-slate-200">REP-INV-1042-2026</span></div>
             <div>Generated: <span className="text-slate-200">2026-09-04 09:30:00 UTC</span></div>
             <div>Entity: <span className="text-slate-200">Acme Payments Corp</span></div>
@@ -90,29 +90,29 @@ export const ExecutiveStoryboard = () => {
         </div>
 
         {/* Executive Summary Spotlight */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded bg-[#0A0E18] border border-[#1A263D]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 rounded bg-[#0A0E18] border border-[#1A263D]">
           <div className="space-y-1">
             <span className="text-[10px] font-mono text-slate-500 uppercase">Incident Case</span>
-            <div className="font-bold text-sm text-white font-mono">#{activeCase.id}</div>
-            <div className="text-[11px] text-slate-400">{activeCase.category}</div>
+            <div className="font-bold text-xs sm:text-sm text-white font-mono">#{activeCase.id}</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">{activeCase.category}</div>
           </div>
 
           <div className="space-y-1">
             <span className="text-[10px] font-mono text-slate-500 uppercase">Discrepancy Amount</span>
-            <div className="font-bold text-lg font-mono text-white">₹{activeCase.amount.toLocaleString('en-IN')}.00</div>
-            <div className="text-[11px] text-emerald-400">100% Reconciled</div>
+            <div className="font-bold text-sm sm:text-lg font-mono text-white">₹{activeCase.amount.toLocaleString('en-IN')}</div>
+            <div className="text-[10px] sm:text-[11px] text-emerald-400">100% Reconciled</div>
           </div>
 
           <div className="space-y-1">
-            <span className="text-[10px] font-mono text-slate-500 uppercase">Mean Time to Resolve</span>
-            <div className="font-bold text-sm text-white font-mono">5.2 Seconds</div>
-            <div className="text-[11px] text-slate-400">Automated Forensics</div>
+            <span className="text-[10px] font-mono text-slate-500 uppercase">MTTR</span>
+            <div className="font-bold text-xs sm:text-sm text-white font-mono">5.2 Seconds</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400">Automated Forensics</div>
           </div>
 
           <div className="space-y-1">
             <span className="text-[10px] font-mono text-slate-500 uppercase">Financial Loss</span>
-            <div className="font-bold text-lg font-mono text-emerald-400">₹0.00</div>
-            <div className="text-[11px] text-slate-400">Zero Balance Sheet Leakage</div>
+            <div className="font-bold text-sm sm:text-lg font-mono text-emerald-400">₹0.00</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">Zero Leakage</div>
           </div>
         </div>
 
@@ -225,14 +225,14 @@ export const ExecutiveStoryboard = () => {
         </div>
 
         {/* Signatures Block */}
-        <div className="pt-8 border-t border-[#1E2D48] grid grid-cols-2 gap-8 text-xs font-mono text-slate-400">
-          <div className="space-y-2">
+        <div className="pt-6 sm:pt-8 border-t border-[#1E2D48] grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 text-xs font-mono text-slate-400">
+          <div className="space-y-1 sm:space-y-2">
             <div className="text-slate-300 font-semibold">Prepared By:</div>
             <div className="text-slate-400">TraceAI Autonomous Financial Forensics Agent</div>
-            <div className="text-[10px] text-slate-500">Hash: 0x8f2d991b402e88a14c9902f3014aef729910d944</div>
+            <div className="text-[10px] text-slate-500 break-all">Hash: 0x8f2d991b402e88a14c9902f3014aef729910d944</div>
           </div>
 
-          <div className="space-y-2 text-right">
+          <div className="space-y-1 sm:space-y-2 sm:text-right">
             <div className="text-slate-300 font-semibold">Certified & Approved By:</div>
             <div className="text-emerald-400 font-semibold">Senior Finance Controller / CFO Desk</div>
             <div className="text-[10px] text-slate-500">Status: Formally Signed & Reconciled</div>

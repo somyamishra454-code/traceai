@@ -247,27 +247,27 @@ Would you like to post the balancing journal entry, inspect the raw MT940 teleme
 
   return (
     <>
-      {/* Floating Toggle Pill (Always visible in bottom-right) */}
+      {/* Floating Toggle Pill (Above mobile bottom bar, bottom-right on desktop) */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-medium text-xs shadow-2xl flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all border border-blue-400/40 group cursor-pointer"
+          className="fixed bottom-16 sm:bottom-6 right-3 sm:right-6 z-40 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-medium text-xs shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all border border-blue-400/40 group cursor-pointer"
         >
           <div className="relative">
             <Bot className="w-4 h-4 text-white" />
             <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400" />
           </div>
-          <span className="font-semibold tracking-wide">AI Forensic Copilot</span>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/20 text-white font-bold">
+          <span className="font-semibold tracking-wide text-[11px] sm:text-xs">AI Copilot</span>
+          <span className="text-[9px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/20 text-white font-bold">
             94%
           </span>
         </button>
       )}
 
-      {/* Slide-over Copilot Drawer */}
+      {/* Slide-over Copilot Drawer (Full-width mobile bottom sheet, compact modal on desktop) */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-full max-w-lg h-[640px] bg-[#0A0E18] border border-[#1E2D48] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
+        <div className="fixed bottom-16 sm:bottom-6 inset-x-2 sm:inset-x-auto sm:right-6 z-50 sm:w-full sm:max-w-lg h-[calc(100vh-130px)] sm:h-[640px] max-h-[640px] bg-[#0A0E18] border border-[#1E2D48] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
           {/* Header */}
           <div className="px-4 py-3 bg-[#0E1524] border-b border-[#1A263D] flex items-center justify-between">
             <div className="flex items-center gap-2.5">

@@ -52,46 +52,46 @@ export const SendReportEmailModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-2xl bg-[#0E1524] border border-[#1E2D48] rounded-lg shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-2.5 sm:p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-2xl bg-[#0E1524] border border-[#1E2D48] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Modal Header */}
-        <div className="p-4 border-b border-[#1A253A] flex items-center justify-between bg-[#0B101A]">
+        <div className="p-3.5 sm:p-4 border-b border-[#1A253A] flex items-center justify-between bg-[#0B101A]">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded bg-[#2563EB]/20 border border-[#3B82F6]/40 flex items-center justify-center text-[#38BDF8]">
+            <div className="w-7 h-7 rounded bg-[#2563EB]/20 border border-[#3B82F6]/40 flex items-center justify-center text-[#38BDF8] flex-shrink-0">
               <Mail className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
                 <span>Dispatch Forensic Evidence Email</span>
                 <span className="font-mono text-xs text-[#38BDF8]">#{emailModalCase.id}</span>
               </h3>
-              <p className="text-[11px] text-slate-400">
-                Send verifiable evidence package and cryptographic audit memo to company leadership or gateway desk.
+              <p className="text-[10px] sm:text-[11px] text-slate-400">
+                Send verifiable evidence package and cryptographic audit memo to company leadership.
               </p>
             </div>
           </div>
 
           <button
             onClick={closeEmailModal}
-            className="text-slate-400 hover:text-white p-1 rounded hover:bg-[#152033] transition-colors"
+            className="text-slate-400 hover:text-white p-1 rounded hover:bg-[#152033] transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 space-y-4 overflow-y-auto flex-1 font-sans text-xs">
+        <div className="p-3.5 sm:p-5 space-y-3.5 sm:space-y-4 overflow-y-auto flex-1 font-sans text-xs">
           {/* Recipient Preset Selector */}
           <div className="space-y-1.5">
             <label className="text-slate-300 font-semibold flex items-center justify-between">
               <span>Recipient Group / Authority</span>
               <span className="text-[10px] font-mono text-slate-500">Encrypted Dispatch</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => { setRecipientType('cfo'); setCustomEmail(''); }}
-                className={`p-2 rounded border text-left transition-all ${
+                className={`p-2 rounded border text-left transition-all cursor-pointer ${
                   recipientType === 'cfo' && !customEmail
                     ? 'border-[#3B82F6] bg-[#152033] text-white'
                     : 'border-[#1A263D] bg-[#0A0E18] text-slate-400 hover:text-slate-200'
@@ -104,7 +104,7 @@ export const SendReportEmailModal = () => {
               <button
                 type="button"
                 onClick={() => { setRecipientType('ops'); setCustomEmail(''); }}
-                className={`p-2 rounded border text-left transition-all ${
+                className={`p-2 rounded border text-left transition-all cursor-pointer ${
                   recipientType === 'ops' && !customEmail
                     ? 'border-[#3B82F6] bg-[#152033] text-white'
                     : 'border-[#1A263D] bg-[#0A0E18] text-slate-400 hover:text-slate-200'
@@ -117,7 +117,7 @@ export const SendReportEmailModal = () => {
               <button
                 type="button"
                 onClick={() => { setRecipientType('gateway'); setCustomEmail(''); }}
-                className={`p-2 rounded border text-left transition-all ${
+                className={`p-2 rounded border text-left transition-all cursor-pointer ${
                   recipientType === 'gateway' && !customEmail
                     ? 'border-[#3B82F6] bg-[#152033] text-white'
                     : 'border-[#1A263D] bg-[#0A0E18] text-slate-400 hover:text-slate-200'
@@ -130,7 +130,7 @@ export const SendReportEmailModal = () => {
               <button
                 type="button"
                 onClick={() => { setRecipientType('bank'); setCustomEmail(''); }}
-                className={`p-2 rounded border text-left transition-all ${
+                className={`p-2 rounded border text-left transition-all cursor-pointer ${
                   recipientType === 'bank' && !customEmail
                     ? 'border-[#3B82F6] bg-[#152033] text-white'
                     : 'border-[#1A263D] bg-[#0A0E18] text-slate-400 hover:text-slate-200'
@@ -143,7 +143,7 @@ export const SendReportEmailModal = () => {
               <button
                 type="button"
                 onClick={() => { setRecipientType('auditor'); setCustomEmail(''); }}
-                className={`p-2 rounded border text-left transition-all ${
+                className={`p-2 rounded border text-left transition-all cursor-pointer ${
                   recipientType === 'auditor' && !customEmail
                     ? 'border-[#3B82F6] bg-[#152033] text-white'
                     : 'border-[#1A263D] bg-[#0A0E18] text-slate-400 hover:text-slate-200'
@@ -191,7 +191,7 @@ export const SendReportEmailModal = () => {
 
           {/* Attached Evidence Package Checklist */}
           <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <span className="font-semibold text-slate-300 flex items-center gap-1.5">
                 <Paperclip className="w-3.5 h-3.5 text-[#38BDF8]" />
                 Attached Evidence Proof Package
@@ -240,18 +240,18 @@ export const SendReportEmailModal = () => {
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 border-t border-[#1A253A] flex items-center justify-between bg-[#0B101A]">
-          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
-            <Lock className="w-3.5 h-3.5 text-slate-500" />
-            <span>Target: <strong className="text-white">{activeEmailAddress}</strong></span>
+        <div className="p-3.5 sm:p-4 border-t border-[#1A253A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0B101A]">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 truncate">
+            <Lock className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
+            <span className="truncate">Target: <strong className="text-white">{activeEmailAddress}</strong></span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
             <button
               type="button"
               onClick={closeEmailModal}
               disabled={isSending}
-              className="btn-secondary text-xs px-3 py-1.5"
+              className="btn-secondary text-xs px-3 py-2 sm:py-1.5 cursor-pointer flex-1 sm:flex-none"
             >
               Cancel
             </button>
@@ -260,12 +260,12 @@ export const SendReportEmailModal = () => {
               type="button"
               onClick={handleSend}
               disabled={isSending}
-              className="btn-primary text-xs px-4 py-1.5 flex items-center gap-1.5 shadow-md"
+              className="btn-primary text-xs px-4 py-2 sm:py-1.5 flex items-center justify-center gap-1.5 shadow-md cursor-pointer flex-1 sm:flex-none"
             >
               {isSending ? (
                 <>
                   <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Dispatching Email...</span>
+                  <span>Dispatching...</span>
                 </>
               ) : (
                 <>

@@ -45,9 +45,9 @@ export const InvestigationWorkspace = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 animate-fadeIn py-2">
       {/* 1. CLEAN WORKSPACE HEADER */}
-      <div className="bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0E1420] border border-[#1A263D] rounded-xl p-4 sm:p-5 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-mono font-bold text-blue-400">
               CASE #{activeCase.id}
             </span>
@@ -67,9 +67,9 @@ export const InvestigationWorkspace = () => {
             </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-baseline gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-baseline gap-2 flex-wrap">
             <span>{activeCase.title}</span>
-            <span className="text-lg font-mono text-slate-400 font-normal">
+            <span className="text-base sm:text-lg font-mono text-slate-400 font-normal">
               (₹{activeCase.amount.toLocaleString('en-IN')})
             </span>
           </h1>
@@ -80,7 +80,7 @@ export const InvestigationWorkspace = () => {
         </div>
 
         {/* Action Toolbar */}
-        <div className="flex items-center gap-2 flex-wrap sm:self-center">
+        <div className="flex items-center gap-2 flex-wrap w-full lg:w-auto justify-between lg:justify-end">
           {/* Speed Selector */}
           <div className="flex items-center gap-1 bg-[#0A0E18] border border-[#1A263D] p-1 rounded-lg text-xs">
             <span className="text-[10px] font-mono text-slate-400 px-1">Speed:</span>
@@ -104,16 +104,16 @@ export const InvestigationWorkspace = () => {
 
           <button
             onClick={() => openEmailModal(activeCase)}
-            className="px-3.5 py-2 rounded-lg bg-[#152033] hover:bg-[#1E293B] text-slate-200 hover:text-white border border-[#1E293B] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 sm:px-3.5 py-2 rounded-lg bg-[#152033] hover:bg-[#1E293B] text-slate-200 hover:text-white border border-[#1E293B] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <Mail className="w-3.5 h-3.5 text-blue-400" />
-            <span>Email Report</span>
+            <span className="hidden sm:inline">Email Report</span>
           </button>
 
           <button
             onClick={handleRunSimulation}
             disabled={isInvestigatingLive}
-            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-50"
+            className="px-3.5 sm:px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-50"
           >
             {isInvestigatingLive ? (
               <>
@@ -123,7 +123,7 @@ export const InvestigationWorkspace = () => {
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>{isResolved ? 'Re-run AI Analysis' : 'Run AI Investigation'}</span>
+                <span>{isResolved ? 'Re-run Analysis' : 'Run AI Investigation'}</span>
               </>
             )}
           </button>
@@ -133,7 +133,7 @@ export const InvestigationWorkspace = () => {
       {/* 2. MAIN 2-COLUMN INVESTIGATION WORKSTATION */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* ================= LEFT (4 COLS): 6 INVESTIGATION STAGES ================= */}
-        <div className="lg:col-span-4 bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-4 bg-[#0E1420] border border-[#1A263D] rounded-xl p-4 sm:p-5 shadow-xl flex flex-col justify-between space-y-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between border-b border-[#162033] pb-2">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono">
@@ -155,7 +155,7 @@ export const InvestigationWorkspace = () => {
                   <div
                     key={stage.id}
                     onClick={() => setSelectedStageIndex(idx)}
-                    className={`p-3 rounded-lg text-xs cursor-pointer border transition-all ${
+                    className={`p-2.5 sm:p-3 rounded-lg text-xs cursor-pointer border transition-all ${
                       isSelected
                         ? 'bg-[#152033] border-blue-500 shadow-sm'
                         : isPassed
@@ -164,7 +164,7 @@ export const InvestigationWorkspace = () => {
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
+                      <div className="flex items-center gap-2 sm:gap-2.5">
                         {isPassed ? (
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                         ) : isCurrent && isInvestigatingLive ? (
@@ -213,14 +213,14 @@ export const InvestigationWorkspace = () => {
         </div>
 
         {/* ================= RIGHT (8 COLS): EVIDENCE, ROOT CAUSE & ACTION ================= */}
-        <div className="lg:col-span-8 bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl space-y-5 flex flex-col justify-between">
+        <div className="lg:col-span-8 bg-[#0E1420] border border-[#1A263D] rounded-xl p-4 sm:p-5 shadow-xl space-y-5 flex flex-col justify-between">
           <div className="space-y-4">
             {/* Tab Selector */}
-            <div className="flex items-center justify-between border-b border-[#162033] pb-2">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#162033] pb-2 gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 sm:pb-0">
                 <button
                   onClick={() => setActiveTab('reasoning')}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeTab === 'reasoning'
                       ? 'bg-blue-600 text-white'
                       : 'text-slate-400 hover:text-white bg-[#0A0E18]'
@@ -230,27 +230,27 @@ export const InvestigationWorkspace = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab('flow')}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeTab === 'flow'
                       ? 'bg-blue-600 text-white'
                       : 'text-slate-400 hover:text-white bg-[#0A0E18]'
                   }`}
                 >
-                  Custody Chain & Time-Travel
+                  Custody Chain
                 </button>
                 <button
                   onClick={() => setActiveTab('telemetry')}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeTab === 'telemetry'
                       ? 'bg-blue-600 text-white'
                       : 'text-slate-400 hover:text-white bg-[#0A0E18]'
                   }`}
                 >
-                  Raw Webhook Payload
+                  Webhook Payload
                 </button>
               </div>
 
-              <div className="text-[10px] font-mono text-slate-400">
+              <div className="text-[10px] font-mono text-slate-400 self-end sm:self-auto">
                 Confidence: <strong className="text-blue-400">{activeCase.confidence}%</strong>
               </div>
             </div>
@@ -274,33 +274,33 @@ export const InvestigationWorkspace = () => {
                 )}
 
                 {/* 3-Way Custody Breakdown Box */}
-                <div className="p-4 rounded-xl bg-[#0A0E18] border border-[#162033] space-y-3">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#0A0E18] border border-[#162033] space-y-3">
                   <span className="text-xs font-bold text-slate-300 uppercase font-mono block">
                     3-WAY LEDGER CUSTODY TRACE
                   </span>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                     <div className="p-3 rounded-lg bg-[#0E1524] border border-[#1A263D]">
                       <div className="text-[11px] text-slate-400">Razorpay Route</div>
-                      <div className="text-lg font-bold font-mono text-white">₹48,000.00</div>
+                      <div className="text-base sm:text-lg font-bold font-mono text-white">₹48,000.00</div>
                       <div className="text-[10px] text-emerald-400 font-mono">✓ 14 Payments Captured</div>
                     </div>
 
                     <div className="p-3 rounded-lg bg-[#0E1524] border border-[#1A263D]">
                       <div className="text-[11px] text-slate-400">HDFC Bank CBS</div>
-                      <div className="text-lg font-bold font-mono text-emerald-400">₹48,000.00</div>
+                      <div className="text-base sm:text-lg font-bold font-mono text-emerald-400">₹48,000.00</div>
                       <div className="text-[10px] text-emerald-400 font-mono">✓ Credited (UTR #HDFCR5...)</div>
                     </div>
 
                     <div className="p-3 rounded-lg bg-[#150D15] border border-rose-500/40">
                       <div className="text-[11px] text-slate-400">Zoho Books ERP</div>
-                      <div className="text-lg font-bold font-mono text-rose-400">₹0.00</div>
+                      <div className="text-base sm:text-lg font-bold font-mono text-rose-400">₹0.00</div>
                       <div className="text-[10px] text-rose-400 font-mono font-bold">✕ Missing Journal Entry</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Isolated Root Cause Box */}
-                <div className="p-4 rounded-xl bg-[#140D14] border border-rose-500/50 space-y-2">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#140D14] border border-rose-500/50 space-y-2">
                   <div className="flex items-center gap-2 text-rose-400 font-bold text-xs font-mono">
                     <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0" />
                     <span>ISOLATED ROOT CAUSE (HTTP 504 GATEWAY TIMEOUT)</span>
@@ -311,7 +311,7 @@ export const InvestigationWorkspace = () => {
                 </div>
 
                 {/* Recommended Resolution Action */}
-                <div className="p-4 rounded-xl bg-[#0B1424] border border-blue-500/40 space-y-2">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#0B1424] border border-blue-500/40 space-y-2">
                   <div className="flex items-center gap-2 text-blue-300 font-bold text-xs font-mono">
                     <ShieldCheck className="w-4 h-4 text-blue-400 flex-shrink-0" />
                     <span>RECOMMENDED RESOLUTION ACTION</span>
@@ -325,7 +325,7 @@ export const InvestigationWorkspace = () => {
 
             {/* TAB 2: CUSTODY FLOW & TIME TRAVEL */}
             {activeTab === 'flow' && (
-              <div className="space-y-4">
+              <div className="space-y-4 overflow-hidden">
                 <TimeTravelScrubber />
                 <FlowCanvasRail />
               </div>
@@ -336,16 +336,16 @@ export const InvestigationWorkspace = () => {
               <div className="space-y-3 font-mono text-xs">
                 <div className="p-3 rounded-lg bg-[#090D14] border border-[#162033] space-y-2">
                   <div className="flex items-center justify-between border-b border-[#162033] pb-2">
-                    <span className="text-slate-300 font-bold flex items-center gap-1.5">
-                      <Code2 className="w-4 h-4 text-blue-400" />
-                      Razorpay Webhook Payload (#wh_evt_9918237418)
+                    <span className="text-slate-300 font-bold flex items-center gap-1.5 truncate mr-2">
+                      <Code2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                      <span className="truncate">Razorpay Webhook Payload (#wh_evt_9918237418)</span>
                     </span>
                     <button
                       onClick={() => {
                         navigator.clipboard.writeText(JSON.stringify(activeCase.webhookDetails, null, 2));
                         showToast('JSON Copied', 'Copied raw webhook payload to clipboard.', 'info');
                       }}
-                      className="text-[11px] text-blue-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                      className="text-[11px] text-blue-400 hover:text-white flex items-center gap-1 cursor-pointer flex-shrink-0"
                     >
                       <Copy className="w-3 h-3" />
                       Copy JSON
@@ -379,14 +379,14 @@ export const InvestigationWorkspace = () => {
           </div>
 
           {/* Bottom Action Footer */}
-          <div className="pt-4 border-t border-[#162033] flex items-center justify-between">
+          <div className="pt-4 border-t border-[#162033] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <span className="text-xs font-mono text-slate-400">
               Target Ledger: <strong className="text-white">{activeCase.accountingSystem}</strong>
             </span>
 
             <button
               onClick={handleNavigateToResolution}
-              className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
             >
               <Scale className="w-4 h-4" />
               <span>Proceed to Resolution Center</span>
