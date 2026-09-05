@@ -1,6 +1,14 @@
 # TraceAI — Enterprise Financial Investigation & Reconciliation Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-traceai--rouge.vercel.app-2563eb?style=for-the-badge&logo=vercel&logoColor=white)](https://traceai-rouge.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/somyamishra454-code/traceai)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TailwindCSS v4](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
 > **"Where did the money go, and what should I do about it?"**
+
+🌐 **Live Production Application**: **[https://traceai-rouge.vercel.app/](https://traceai-rouge.vercel.app/)**  
+📂 **GitHub Repository**: **[https://github.com/somyamishra454-code/traceai](https://github.com/somyamishra454-code/traceai)**
 
 TraceAI is an enterprise-grade autonomous financial investigation and reconciliation platform built for fintech, treasury, and operations engineering teams. It continuously monitors multi-gateway settlements, bank core banking system (CBS) feeds, and ERP general ledgers to autonomously isolate discrepancies, trace root causes across APIs and webhooks, generate double-entry balancing journal entries, and dispatch forensic evidence packages.
 
