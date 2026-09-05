@@ -4,7 +4,6 @@ import {
   Mail,
   Share2
 } from 'lucide-react';
-import { InvestigationWorkflowStepper } from '../components/shared/InvestigationWorkflowStepper';
 
 export const ExecutiveStoryboard = () => {
   const { activeCase, openEmailModal, showToast } = useFinancialData();
@@ -20,12 +19,7 @@ export const ExecutiveStoryboard = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      {/* 6-Stage Investigation Lifecycle Stepper */}
-      <div className="no-print">
-        <InvestigationWorkflowStepper />
-      </div>
-
+    <div className="max-w-5xl mx-auto space-y-6 animate-fadeIn py-2">
       {/* Header with Export & Email Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162033] no-print">
         <div>

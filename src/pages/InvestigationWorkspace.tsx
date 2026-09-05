@@ -5,20 +5,16 @@ import {
   Play,
   RotateCw,
   CheckCircle2,
-  AlertCircle,
   ArrowRight,
   ShieldCheck,
-  ChevronRight,
-  Zap,
-  Layers,
   Mail,
-  Send,
-  Gauge
+  Scale,
+  AlertTriangle,
+  Code2,
+  Copy
 } from 'lucide-react';
-import { TimeTravelScrubber } from '../components/shared/TimeTravelScrubber';
 import { FlowCanvasRail } from '../components/shared/FlowCanvasRail';
-import { InvestigationWorkflowStepper } from '../components/shared/InvestigationWorkflowStepper';
-import { AgentReasoningVisualizer } from '../components/shared/AgentReasoningVisualizer';
+import { TimeTravelScrubber } from '../components/shared/TimeTravelScrubber';
 
 export const InvestigationWorkspace = () => {
   const {
@@ -26,7 +22,6 @@ export const InvestigationWorkspace = () => {
     runInvestigation,
     isInvestigatingLive,
     investigationLog,
-    markResolved,
     openEmailModal,
     showToast,
     investigationSpeed,
@@ -34,77 +29,72 @@ export const InvestigationWorkspace = () => {
   } = useFinancialData();
 
   const navigate = useNavigate();
-  const [activeCenterTab, setActiveCenterTab] = useState<'activity' | 'flow' | 'telemetry'>('activity');
-  const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<'reasoning' | 'flow' | 'telemetry'>('reasoning');
+  const [selectedStageIndex, setSelectedStageIndex] = useState<number>(activeCase.currentStageIndex || 0);
 
   const handleRunSimulation = async () => {
     await runInvestigation(activeCase.id);
-  };
-
-  const handleNavigateToEvidence = () => {
-    navigate('/evidence');
   };
 
   const handleNavigateToResolution = () => {
     navigate('/resolution');
   };
 
-  return (
-    <div className="max-w-7xl mx-auto space-y-4">
-      {/* 6-Stage Investigation Lifecycle Stepper */}
-      <InvestigationWorkflowStepper />
+  const isResolved = activeCase.state === 'resolved';
 
-      {/* Autonomous AI Reasoning Engine & Evidence Citations */}
-      <AgentReasoningVisualizer />
-      {/* Workspace Top Header */}
-      <div className="fin-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#162033]">
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-[#38BDF8]">
-                CASE #{activeCase.id}
-              </span>
-              <span className={
-                activeCase.severity === 'CRITICAL' ? 'badge-risk' :
-                activeCase.severity === 'HIGH' ? 'badge-attention' : 'badge-neutral'
-              }>
-                {activeCase.severity}
-              </span>
-              <span className={
-                activeCase.state === 'resolved' ? 'badge-resolved' :
-                activeCase.state === 'resolution_ready' ? 'badge-attention' : 'badge-risk'
-              }>
-                {activeCase.state.replace('_', ' ').toUpperCase()}
-              </span>
-            </div>
-            <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
-              <span>{activeCase.title}</span>
-              <span className="text-base font-mono text-slate-400 font-normal">
-                (₹{activeCase.amount.toLocaleString('en-IN')})
-              </span>
-            </h1>
+  return (
+    <div className="max-w-6xl mx-auto space-y-6 animate-fadeIn py-2">
+      {/* 1. CLEAN WORKSPACE HEADER */}
+      <div className="bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-blue-400">
+              CASE #{activeCase.id}
+            </span>
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+              activeCase.severity === 'CRITICAL'
+                ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+            }`}>
+              {activeCase.severity}
+            </span>
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+              isResolved
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                : 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+            }`}>
+              {activeCase.state.toUpperCase().replace('_', ' ')}
+            </span>
           </div>
+
+          <h1 className="text-2xl font-bold text-white tracking-tight flex items-baseline gap-2">
+            <span>{activeCase.title}</span>
+            <span className="text-lg font-mono text-slate-400 font-normal">
+              (₹{activeCase.amount.toLocaleString('en-IN')})
+            </span>
+          </h1>
+
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            {activeCase.shortSummary}
+          </p>
         </div>
 
-        {/* Action Toolbar & Speed Controls */}
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Action Toolbar */}
+        <div className="flex items-center gap-2 flex-wrap sm:self-center">
           {/* Speed Selector */}
-          <div className="flex items-center gap-1 bg-[#0E1524] border border-[#1A263D] p-1 rounded-lg">
-            <span className="text-[10px] font-mono text-slate-400 px-1.5 flex items-center gap-1">
-              <Gauge className="w-3 h-3 text-slate-400" />
-              Speed:
-            </span>
+          <div className="flex items-center gap-1 bg-[#0A0E18] border border-[#1A263D] p-1 rounded-lg text-xs">
+            <span className="text-[10px] font-mono text-slate-400 px-1">Speed:</span>
             {([1, 2, 10] as const).map((spd) => (
               <button
                 key={spd}
                 onClick={() => {
                   setInvestigationSpeed(spd);
-                  showToast('Speed Updated', `Investigation execution speed set to ${spd === 10 ? 'Instant' : `${spd}x`}.`, 'info');
+                  showToast('Speed Updated', `Execution speed set to ${spd === 10 ? 'Instant' : `${spd}x`}.`, 'info');
                 }}
-                className={`px-2 py-0.5 text-[11px] font-mono font-semibold rounded transition-all ${
+                className={`px-2 py-0.5 text-[11px] font-mono rounded transition-all cursor-pointer ${
                   investigationSpeed === spd
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#162033]'
+                    ? 'bg-blue-600 text-white font-bold'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {spd === 10 ? 'Instant' : `${spd}x`}
@@ -113,70 +103,43 @@ export const InvestigationWorkspace = () => {
           </div>
 
           <button
-            onClick={() => navigate('/inbox')}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-          >
-            <Layers className="w-3.5 h-3.5 text-slate-400" />
-            <span>Discrepancy Inbox</span>
-          </button>
-
-          <button
             onClick={() => openEmailModal(activeCase)}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 text-slate-200 hover:text-white"
+            className="px-3.5 py-2 rounded-lg bg-[#152033] hover:bg-[#1E293B] text-slate-200 hover:text-white border border-[#1E293B] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Mail className="w-3.5 h-3.5 text-[#38BDF8]" />
-            <span>Email Forensic Report</span>
+            <Mail className="w-3.5 h-3.5 text-blue-400" />
+            <span>Email Report</span>
           </button>
 
           <button
             onClick={handleRunSimulation}
             disabled={isInvestigatingLive}
-            className={`btn-primary text-xs font-semibold px-4 py-2 flex items-center gap-2 shadow-md ${
-              isInvestigatingLive ? 'opacity-70 animate-pulse' : ''
-            }`}
+            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-50"
           >
             {isInvestigatingLive ? (
               <>
                 <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                <span>Investigating Live...</span>
+                <span>Investigating...</span>
               </>
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>{activeCase.state === 'resolved' ? 'Re-run Investigation' : 'Run AI Investigation'}</span>
+                <span>{isResolved ? 'Re-run AI Analysis' : 'Run AI Investigation'}</span>
               </>
             )}
-          </button>
-
-          <button
-            onClick={handleNavigateToEvidence}
-            className="btn-secondary text-xs px-3 py-2"
-          >
-            <span>Evidence Graph</span>
-          </button>
-
-          <button
-            onClick={handleNavigateToResolution}
-            className="btn-secondary text-xs px-3 py-2"
-          >
-            <span>Resolution</span>
           </button>
         </div>
       </div>
 
-      {/* Interactive Time-Travel Scrubber */}
-      <TimeTravelScrubber />
-
-      {/* 3-ZONE INVESTIGATOR WORKSTATION */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* ================= ZONE 1 (LEFT, 3 Cols): INVESTIGATION STAGES ================= */}
-        <div className="lg:col-span-3 fin-card p-4 space-y-4 flex flex-col justify-between">
+      {/* 2. MAIN 2-COLUMN INVESTIGATION WORKSTATION */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* ================= LEFT (4 COLS): 6 INVESTIGATION STAGES ================= */}
+        <div className="lg:col-span-4 bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl flex flex-col justify-between space-y-4">
           <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-[#1A253A] pb-2">
-              <span className="text-xs font-semibold text-white tracking-wider uppercase">
-                Investigation Stages
+            <div className="flex items-center justify-between border-b border-[#162033] pb-2">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono">
+                INVESTIGATION STAGES
               </span>
-              <span className="text-[10px] font-mono text-slate-400">
+              <span className="text-[10px] font-mono text-slate-500">
                 {activeCase.stages.filter(s => s.status === 'completed').length}/6 Complete
               </span>
             </div>
@@ -191,32 +154,29 @@ export const InvestigationWorkspace = () => {
                 return (
                   <div
                     key={stage.id}
-                    onClick={() => {
-                      setSelectedStageIndex(idx);
-                      showToast(`Stage ${idx + 1}: ${stage.name}`, stage.summary, 'info');
-                    }}
-                    className={`p-2.5 rounded text-xs cursor-pointer border transition-all ${
+                    onClick={() => setSelectedStageIndex(idx)}
+                    className={`p-3 rounded-lg text-xs cursor-pointer border transition-all ${
                       isSelected
-                        ? 'bg-[#152033] border-[#3B82F6]'
+                        ? 'bg-[#152033] border-blue-500 shadow-sm'
                         : isPassed
-                        ? 'bg-[#0E1524] border-[#1A263D] hover:border-slate-600'
-                        : 'bg-[#0A0E18] border-[#141C2C] opacity-70 hover:opacity-100'
+                        ? 'bg-[#0A0E18] border-[#162033] hover:border-slate-600'
+                        : 'bg-[#090D14] border-[#141C2C] opacity-60 hover:opacity-100'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2.5">
                         {isPassed ? (
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                         ) : isCurrent && isInvestigatingLive ? (
-                          <RotateCw className="w-3.5 h-3.5 text-[#38BDF8] animate-spin flex-shrink-0" />
+                          <RotateCw className="w-4 h-4 text-blue-400 animate-spin flex-shrink-0" />
                         ) : (
-                          <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono text-[9px] ${
-                            isSelected ? 'bg-[#3B82F6] text-white' : 'bg-[#1C273D] text-slate-400'
+                          <div className={`w-4 h-4 rounded-full flex items-center justify-center font-mono text-[10px] font-bold ${
+                            isSelected ? 'bg-blue-600 text-white' : 'bg-[#162033] text-slate-400'
                           }`}>
                             {idx + 1}
                           </div>
                         )}
-                        <span className={`font-semibold tracking-wide ${
+                        <span className={`font-semibold ${
                           isSelected ? 'text-white' : isPassed ? 'text-slate-200' : 'text-slate-400'
                         }`}>
                           {stage.name}
@@ -240,251 +200,198 @@ export const InvestigationWorkspace = () => {
           </div>
 
           {/* Selected Stage Detail Drawer */}
-          <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] space-y-1.5 text-xs">
-            <div className="flex items-center justify-between text-slate-300 font-medium">
-              <span>Stage {selectedStageIndex + 1}: {activeCase.stages[selectedStageIndex]?.name} Details</span>
+          <div className="p-3 rounded-lg bg-[#0A0E18] border border-[#162033] space-y-1.5 text-xs font-mono">
+            <div className="text-slate-300 font-bold">
+              Stage {selectedStageIndex + 1}: {activeCase.stages[selectedStageIndex]?.name} Telemetry
             </div>
             <ul className="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
-              {activeCase.stages[selectedStageIndex]?.details.length > 0 ? (
-                activeCase.stages[selectedStageIndex].details.map((d, i) => (
-                  <li key={i} className="leading-tight">{d}</li>
-                ))
-              ) : (
-                <li className="italic text-slate-600">Pending execution in investigation runner.</li>
-              )}
+              {activeCase.stages[selectedStageIndex]?.details.map((d, i) => (
+                <li key={i} className="leading-tight">{d}</li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* ================= ZONE 2 (CENTER, 6 Cols): EVIDENCE & INVESTIGATION ACTIVITY ================= */}
-        <div className="lg:col-span-6 fin-card p-4 space-y-4 flex flex-col justify-between">
+        {/* ================= RIGHT (8 COLS): EVIDENCE, ROOT CAUSE & ACTION ================= */}
+        <div className="lg:col-span-8 bg-[#0E1420] border border-[#1A263D] rounded-xl p-5 shadow-xl space-y-5 flex flex-col justify-between">
           <div className="space-y-4">
-            {/* Center Tab Header */}
-            <div className="flex items-center justify-between border-b border-[#1A253A] pb-2">
+            {/* Tab Selector */}
+            <div className="flex items-center justify-between border-b border-[#162033] pb-2">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setActiveCenterTab('activity')}
-                  className={`text-xs font-semibold px-3 py-1 rounded transition-colors ${
-                    activeCenterTab === 'activity'
-                      ? 'bg-[#1A263D] text-white'
-                      : 'text-slate-400 hover:text-slate-200'
+                  onClick={() => setActiveTab('reasoning')}
+                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                    activeTab === 'reasoning'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-400 hover:text-white bg-[#0A0E18]'
                   }`}
                 >
-                  Investigation Activity
+                  AI Forensic Findings
                 </button>
                 <button
-                  onClick={() => setActiveCenterTab('flow')}
-                  className={`text-xs font-semibold px-3 py-1 rounded transition-colors ${
-                    activeCenterTab === 'flow'
-                      ? 'bg-[#1A263D] text-white'
-                      : 'text-slate-400 hover:text-slate-200'
+                  onClick={() => setActiveTab('flow')}
+                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                    activeTab === 'flow'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-400 hover:text-white bg-[#0A0E18]'
                   }`}
                 >
-                  Transaction Flow Chain
+                  Custody Chain & Time-Travel
                 </button>
                 <button
-                  onClick={() => setActiveCenterTab('telemetry')}
-                  className={`text-xs font-semibold px-3 py-1 rounded transition-colors ${
-                    activeCenterTab === 'telemetry'
-                      ? 'bg-[#1A263D] text-white'
-                      : 'text-slate-400 hover:text-slate-200'
+                  onClick={() => setActiveTab('telemetry')}
+                  className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                    activeTab === 'telemetry'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-400 hover:text-white bg-[#0A0E18]'
                   }`}
                 >
-                  Raw Telemetry & Webhook
+                  Raw Webhook Payload
                 </button>
               </div>
 
-              {isInvestigatingLive && (
-                <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#38BDF8]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-ping" />
-                  <span>EXECUTING STAGES</span>
-                </div>
-              )}
+              <div className="text-[10px] font-mono text-slate-400">
+                Confidence: <strong className="text-blue-400">{activeCase.confidence}%</strong>
+              </div>
             </div>
 
-            {/* TAB CONTENT: Activity Stream */}
-            {activeCenterTab === 'activity' && (
-              <div className="space-y-3">
-                {/* Live Console Output during simulation */}
+            {/* TAB 1: AI FORENSIC FINDINGS */}
+            {activeTab === 'reasoning' && (
+              <div className="space-y-4">
+                {/* Live Console Output during execution */}
                 {investigationLog.length > 0 && (
-                  <div className="p-3 rounded bg-[#070A10] border border-[#1E2D48] font-mono text-[11px] text-slate-300 space-y-1 max-h-44 overflow-y-auto">
-                    <div className="text-slate-500 font-semibold border-b border-[#1A263D] pb-1 flex justify-between">
-                      <span>TRACEAI EXECUTION TELEMETRY</span>
-                      <span className="text-emerald-400">STATUS: RUNNING</span>
+                  <div className="p-3 rounded-lg bg-[#070A10] border border-[#1E2D48] font-mono text-[11px] text-slate-300 space-y-1 max-h-36 overflow-y-auto">
+                    <div className="text-slate-500 font-bold border-b border-[#162033] pb-1 flex justify-between">
+                      <span>TRACEAI REAL-TIME EXECUTION LOGS</span>
+                      <span className="text-emerald-400">STATUS: VERIFYING</span>
                     </div>
                     {investigationLog.map((log, i) => (
-                      <div key={i} className="text-slate-300 leading-normal">
+                      <div key={i} className="text-slate-300">
                         {log}
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* Chain of Verification Milestones */}
-                <div className="space-y-2">
-                  <div className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Deterministic Evidence Milestones</span>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="p-3 rounded bg-[#0E1524] border border-[#1A263D] space-y-1 text-xs">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-slate-200">1. Bank Statement Credit Confirmed</span>
-                        <span className="badge-resolved text-[10px]">VERIFIED</span>
-                      </div>
-                      <p className="text-[11px] text-slate-400">
-                        HDFC Host-to-Host MT940 feed received ₹48,000.00 under UTR #HDFCR5202609040019284 at 03:45:18 UTC.
-                      </p>
+                {/* 3-Way Custody Breakdown Box */}
+                <div className="p-4 rounded-xl bg-[#0A0E18] border border-[#162033] space-y-3">
+                  <span className="text-xs font-bold text-slate-300 uppercase font-mono block">
+                    3-WAY LEDGER CUSTODY TRACE
+                  </span>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div className="p-3 rounded-lg bg-[#0E1524] border border-[#1A263D]">
+                      <div className="text-[11px] text-slate-400">Razorpay Route</div>
+                      <div className="text-lg font-bold font-mono text-white">₹48,000.00</div>
+                      <div className="text-[10px] text-emerald-400 font-mono">✓ 14 Payments Captured</div>
                     </div>
 
-                    <div className="p-3 rounded bg-[#0E1524] border border-[#1A263D] space-y-1 text-xs">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-slate-200">2. Gateway Settlement Aggregation Matched</span>
-                        <span className="badge-resolved text-[10px]">VERIFIED</span>
-                      </div>
-                      <p className="text-[11px] text-slate-400">
-                        Razorpay batch #setl_RZP_48000_902 matches 14 captured merchant transactions exactly with ₹0 fee delta.
-                      </p>
+                    <div className="p-3 rounded-lg bg-[#0E1524] border border-[#1A263D]">
+                      <div className="text-[11px] text-slate-400">HDFC Bank CBS</div>
+                      <div className="text-lg font-bold font-mono text-emerald-400">₹48,000.00</div>
+                      <div className="text-[10px] text-emerald-400 font-mono">✓ Credited (UTR #HDFCR5...)</div>
                     </div>
 
-                    <div className="p-3 rounded bg-[#140D14] border border-rose-500/40 space-y-1 text-xs">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-rose-300">3. Accounting Ledger Gap Detected</span>
-                        <span className="badge-risk text-[10px]">BREAK DETECTED</span>
-                      </div>
-                      <p className="text-[11px] text-slate-300">
-                        Zoho Books ERP general ledger clearing account #1150 is missing journal entry. Webhook retry failed with HTTP 504.
-                      </p>
+                    <div className="p-3 rounded-lg bg-[#150D15] border border-rose-500/40">
+                      <div className="text-[11px] text-slate-400">Zoho Books ERP</div>
+                      <div className="text-lg font-bold font-mono text-rose-400">₹0.00</div>
+                      <div className="text-[10px] text-rose-400 font-mono font-bold">✕ Missing Journal Entry</div>
                     </div>
                   </div>
+                </div>
+
+                {/* Isolated Root Cause Box */}
+                <div className="p-4 rounded-xl bg-[#140D14] border border-rose-500/50 space-y-2">
+                  <div className="flex items-center gap-2 text-rose-400 font-bold text-xs font-mono">
+                    <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                    <span>ISOLATED ROOT CAUSE (HTTP 504 GATEWAY TIMEOUT)</span>
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-mono">
+                    {activeCase.rootCause}
+                  </p>
+                </div>
+
+                {/* Recommended Resolution Action */}
+                <div className="p-4 rounded-xl bg-[#0B1424] border border-blue-500/40 space-y-2">
+                  <div className="flex items-center gap-2 text-blue-300 font-bold text-xs font-mono">
+                    <ShieldCheck className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <span>RECOMMENDED RESOLUTION ACTION</span>
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-mono">
+                    {activeCase.recommendedAction}
+                  </p>
                 </div>
               </div>
             )}
 
-            {/* TAB CONTENT: Visual Money Flow Chain */}
-            {activeCenterTab === 'flow' && (
-              <div className="space-y-4 py-1">
+            {/* TAB 2: CUSTODY FLOW & TIME TRAVEL */}
+            {activeTab === 'flow' && (
+              <div className="space-y-4">
+                <TimeTravelScrubber />
                 <FlowCanvasRail />
               </div>
             )}
 
-            {/* TAB CONTENT: Telemetry */}
-            {activeCenterTab === 'telemetry' && (
+            {/* TAB 3: RAW TELEMETRY & PAYLOADS */}
+            {activeTab === 'telemetry' && (
               <div className="space-y-3 font-mono text-xs">
-                <div className="p-3 rounded bg-[#070A10] border border-[#1A263D] space-y-2">
-                  <div className="text-slate-400 font-semibold text-[11px]">WEBHOOK DISPATCH TELEMETRY</div>
-                  <div className="text-slate-300 text-[11px] space-y-1">
-                    <div><span className="text-slate-500">Endpoint:</span> {activeCase.webhookDetails.endpoint}</div>
-                    <div><span className="text-slate-500">Payload ID:</span> {activeCase.webhookDetails.payloadId}</div>
-                    <div><span className="text-slate-500">HTTP Status:</span> <span className="text-rose-400 font-bold">{activeCase.webhookDetails.lastHttpCode} Gateway Timeout</span></div>
-                    <div><span className="text-slate-500">Retry Attempts:</span> 3 of 3 (Exhausted)</div>
-                    <div><span className="text-slate-500">Error Msg:</span> {activeCase.webhookDetails.lastError}</div>
+                <div className="p-3 rounded-lg bg-[#090D14] border border-[#162033] space-y-2">
+                  <div className="flex items-center justify-between border-b border-[#162033] pb-2">
+                    <span className="text-slate-300 font-bold flex items-center gap-1.5">
+                      <Code2 className="w-4 h-4 text-blue-400" />
+                      Razorpay Webhook Payload (#wh_evt_9918237418)
+                    </span>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(JSON.stringify(activeCase.webhookDetails, null, 2));
+                        showToast('JSON Copied', 'Copied raw webhook payload to clipboard.', 'info');
+                      }}
+                      className="text-[11px] text-blue-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <Copy className="w-3 h-3" />
+                      Copy JSON
+                    </button>
                   </div>
-                </div>
-
-                <div className="p-3 rounded bg-[#070A10] border border-[#1A263D] space-y-2">
-                  <div className="text-slate-400 font-semibold text-[11px]">CBS STATEMENT METADATA</div>
-                  <div className="text-slate-300 text-[11px] space-y-1">
-                    <div><span className="text-slate-500">Account:</span> {activeCase.bankAccount}</div>
-                    <div><span className="text-slate-500">UTR Reference:</span> {activeCase.chainNodes[3]?.referenceId}</div>
-                    <div><span className="text-slate-500">Booking Time:</span> 2026-09-04 03:45:18 UTC</div>
-                  </div>
+                  <pre className="text-[11px] text-slate-400 bg-black/40 p-3 rounded overflow-x-auto">
+{JSON.stringify({
+  event: 'settlement.processed',
+  account_id: 'acc_RZP_merchant_01',
+  payload: {
+    settlement: {
+      entity: {
+        id: 'setl_RZP_48000_902',
+        amount: 4800000,
+        currency: 'INR',
+        status: 'processed',
+        utr: 'HDFCR5202609040019284',
+        fees: 0,
+        tax: 0
+      }
+    }
+  },
+  attempts: 3,
+  last_http_response: 504,
+  error: 'Gateway Timeout (>30000ms)'
+}, null, 2)}
+                  </pre>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Bottom Bar within Center Zone */}
-          <div className="pt-3 border-t border-[#1A253A] flex items-center justify-between text-xs text-slate-400">
-            <span>Deterministic verification based on cryptographic CBS statement hash</span>
-            <button
-              onClick={handleNavigateToEvidence}
-              className="text-[#38BDF8] hover:text-white flex items-center gap-1 font-medium"
-            >
-              <span>Explore deep evidence nodes</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* ================= ZONE 3 (RIGHT, 3 Cols): AI FINDINGS & ACTIONS ================= */}
-        <div className="lg:col-span-3 fin-card p-4 space-y-4 flex flex-col justify-between">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-[#1A253A] pb-2">
-              <span className="text-xs font-semibold text-white uppercase tracking-wider">
-                AI Findings & Root Cause
-              </span>
-              <span className="badge-evidence text-[10px]">
-                {activeCase.confidence}% Confidence
-              </span>
-            </div>
-
-            {/* Root Cause Card */}
-            <div className="p-3 rounded bg-[#0A0E18] border border-[#1A263D] space-y-2 text-xs">
-              <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
-                <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
-                <span>Identified Root Cause</span>
-              </div>
-              <p className="text-[11px] text-slate-300 leading-relaxed">
-                {activeCase.rootCause}
-              </p>
-            </div>
-
-            {/* Financial Impact */}
-            <div className="p-3 rounded bg-[#0E1524] border border-[#1A263D] space-y-1.5 text-xs">
-              <span className="text-slate-400 font-medium">Financial Balance Sheet Impact</span>
-              <div className="text-lg font-bold font-mono text-white">
-                ₹{activeCase.amount.toLocaleString('en-IN')}.00
-              </div>
-              <p className="text-[10px] text-slate-400 leading-tight">
-                Understated cash balance on general ledger; clearing account variance requires balancing double-entry.
-              </p>
-            </div>
-
-            {/* Recommended Action */}
-            <div className="p-3 rounded bg-[#111A2E] border border-[#1E3054] space-y-2 text-xs">
-              <div className="flex items-center gap-1.5 text-[#38BDF8] font-semibold">
-                <Zap className="w-3.5 h-3.5" />
-                <span>Recommended Action</span>
-              </div>
-              <p className="text-[11px] text-slate-300 leading-relaxed">
-                {activeCase.recommendedAction}
-              </p>
-            </div>
-          </div>
-
-          {/* Action Execution CTAs */}
-          <div className="space-y-2 pt-2 border-t border-[#1A253A]">
-            <button
-              onClick={() => openEmailModal(activeCase)}
-              className="w-full btn-secondary text-xs py-2 font-medium flex items-center justify-center gap-2 text-slate-200 hover:text-white"
-            >
-              <Send className="w-3.5 h-3.5 text-[#38BDF8]" />
-              <span>Email Forensic Proof Package</span>
-            </button>
+          {/* Bottom Action Footer */}
+          <div className="pt-4 border-t border-[#162033] flex items-center justify-between">
+            <span className="text-xs font-mono text-slate-400">
+              Target Ledger: <strong className="text-white">{activeCase.accountingSystem}</strong>
+            </span>
 
             <button
               onClick={handleNavigateToResolution}
-              className="w-full btn-primary text-xs py-2.5 font-semibold flex items-center justify-center gap-2 shadow-lg"
+              className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all cursor-pointer"
             >
+              <Scale className="w-4 h-4" />
               <span>Proceed to Resolution Center</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-
-            {activeCase.state !== 'resolved' ? (
-              <button
-                onClick={() => markResolved(activeCase.id)}
-                className="w-full btn-success text-xs py-2 font-medium flex items-center justify-center gap-2"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Mark Reconciled & Resolved</span>
-              </button>
-            ) : (
-              <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-center text-xs font-mono font-semibold">
-                ✓ Case Resolved & Reconciled
-              </div>
-            )}
           </div>
         </div>
       </div>
